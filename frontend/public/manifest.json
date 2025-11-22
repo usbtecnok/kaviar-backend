@@ -1,0 +1,11 @@
+{
+  "short_name": "KAVIAR",
+  "name": "KAVIAR Web App",
+  "icons": [
+    { "src": "/splash.png", "sizes": "2048x2048", "type": "image/png" }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}

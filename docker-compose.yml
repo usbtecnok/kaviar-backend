@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  kaviar_db:
+    image: postgres:15
+    container_name: kaviar_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: usbtecnok2025
+      POSTGRES_DB: kaviar
+    ports:
+      - "5433:5432"
+    volumes:
+      - kaviar_data:/var/lib/postgresql/data
+
+volumes:
+  kaviar_data:

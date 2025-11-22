@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "KAVIAR Driver",
+    "slug": "kaviar-driver",
+    "version": "1.0.0",
+    "orientation": "portrait",
+
+    "icon": "./assets/splash/kaviar.png",
+
+    "splash": {
+      "image": "./assets/splash/kaviar.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.kaviar.driver"
+    },
+
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/splash/kaviar.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.kaviar.driver",
+      "permissions": []
+    },
+
+    "web": {
+      "favicon": "./assets/splash/kaviar.png"
+    }
+  }
+}
