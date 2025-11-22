@@ -1,21 +1,19 @@
-# ============================
-#   KAVIAR BACKEND - DOCKERFILE
-# ============================
+# ==================================
+#   K A V I A R   B A C K E N D
+#       Dockerfile Oficial
+# ==================================
 
 FROM node:22-alpine
 
-# Diretório da aplicação
 WORKDIR /app
 
 # Instalar dependências
 COPY package*.json ./
 RUN npm install
 
-# Copiar todo o backend
+# Copiar todo código
 COPY . .
 
-# Porta exposta
 EXPOSE 4001
 
-# Start
 CMD ["npm", "start"]
