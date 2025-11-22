@@ -1,0 +1,25 @@
+{
+  "name": "kaviar-backend",
+  "version": "1.0.0",
+  "description": "Backend oficial do KAVIAR (Motorista, Passageiro, Admin, Tours, OTP, JWT Refresh)",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "prisma": "prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3",
+    "nodemon": "^3.1.11",
+    "prisma": "^6.19.0"
+  }
+}

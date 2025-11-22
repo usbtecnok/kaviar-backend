@@ -1,0 +1,159 @@
+//
+// KAVIAR — BANCO DE DADOS OFICIAL
+// Arquitetura completa para Motoristas, Passageiros, Admins, Tours e Métricas
+//
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//
+// =======================
+//     TABELA: ADMIN
+// =======================
+// Administradores do painel web
+//
+model Admin {
+  admin_id     String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String   // hash bcrypt
+  created_at   DateTime @default(now())
+}
+
+//
+// =======================
+//   OTP (Mock SMS/WhatsApp)
+// =======================
+// Armazena códigos de verificação de telefone
+//
+model OtpCode {
+  otp_id       String    @id @default(uuid())
+  phone        String
+  code         String
+  expires_at   DateTime
+  created_at   DateTime  @default(now())
+}
+
+//
+// =======================
+//     MOTORISTA
+// =======================
+//
+model Driver {
+  driver_id           String             @id @default(uuid())
+  name                String
+  phone               String?            @unique
+  email               String?            @unique
+  password            String?            // hash para login por email
+  
+  verified_phone      Boolean            @default(false)
+  verified_email      Boolean            @default(false)
+
+  current_level       String             @default("Bronze")
+  is_certified_kaviar Boolean            @default(false)
+
+  created_at          DateTime           @default(now())
+
+  rides               RideTransaction[]
+  monthlyMetrics      MonthlyMetric[]
+}
+
+//
+// =======================
+//     PASSAGEIRO
+// =======================
+//
+model Passenger {
+  passenger_id   String             @id @default(uuid())
+  name           String
+  phone          String?            @unique
+  email          String?            @unique
+  password       String?            // hash
+
+  verified_phone Boolean            @default(false)
+  verified_email Boolean            @default(false)
+
+  created_at     DateTime           @default(now())
+}
+
+//
+// =======================
+//     CORRIDAS / TOURS
+// =======================
+//
+model RideTransaction {
+  transaction_id       String   @id @default(uuid())
+  
+  // Relacionamento motorista
+  driver_id            String
+  driver               Driver   @relation(fields: [driver_id], references: [driver_id])
+
+  client_id            String   // pode ser passageiro ou cliente VIP
+  ride_type            String   // PONTO_A_PONTO | TOUR | COMBO_TURISTICO
+
+  base_amount          Float    // valor pago pelo cliente
+
+  // Financeiro calculado
+  driver_commission_rate Float
+  platform_commission   Float
+  driver_net_earnings   Float
+
+  // Bônus
+  hotel_bonus           Float   @default(0.00)
+  tour_points_bonus     Float   @default(0.00)
+  tour_hourly_premium   Float   @default(0.00)
+
+  completed_at          DateTime @default(now())
+}
+
+//
+// =======================
+//     MÉTRICAS MENSAIS
+// =======================
+//
+model MonthlyMetric {
+  metric_id             Int       @id @default(autoincrement())
+  
+  driver_id             String
+  driver                Driver    @relation(fields: [driver_id], references: [driver_id])
+
+  month_year            DateTime  // usar dia 1 de cada mês
+
+  total_rides           Int       @default(0)
+  cancellation_rate     Float     @default(0.00)
+  average_rating        Float     @default(0.00)
+
+  total_net_earnings    Float     @default(0.00)
+  total_commission_paid Float     @default(0.00)
+  bonus_mei_value       Float     @default(0.00)
+  bonus_fidelidade_value Float    @default(0.00)
+
+  @@unique([driver_id, month_year])
+}
+
+//
+// =======================
+//     BONIFICAÇÕES DE HOTEL
+// =======================
+//
+model HotelBonusConfig {
+  stars              Int    @id
+  base_bonus_value   Float
+}
+
+//
+// =======================
+//  BONIFICAÇÕES TURÍSTICAS
+// =======================
+//
+model TouristPointBonusConfig {
+  point_name         String   @id
+  base_bonus_value   Float
+}
+

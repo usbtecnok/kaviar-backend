@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: kaviar-backend
+    env: docker
+    plan: starter
+    region: oregon
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: 4000
